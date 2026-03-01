@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>智慧护航可视化大屏</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <!-- Leaflet 地图（可替换为高德 JS API） -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <div id="dashboard">
+    <header class="header">
+      <div class="header-left">
+        <h1>智慧护航运营态势大屏</h1>
+        <p class="subtitle">设备健康 · AI 洞察 · 用户服务 · 智能调度</p>
+      </div>
+      <div class="header-right">
+        <div class="time" id="system-time"></div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="panel left-panel">
+        <div class="panel-title">设备健康与 AI 洞察</div>
+        <div class="panel-body left-body">
+          <div class="sub-panel">
+            <div class="sub-title">设备状态列表</div>
+            <div class="device-table-wrapper">
+              <table class="device-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>电量</th>
+                    <th>信号</th>
+                    <th>状态</th>
+                    <th>最后活跃</th>
+                  </tr>
+                </thead>
+                <tbody id="device-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="sub-panel">
+            <div class="sub-title">AI 识别光谱</div>
+            <div id="ai-spectrum" class="chart"></div>
+          </div>
+          <div class="sub-panel">
+            <div class="sub-title">智能诊断</div>
+            <div id="ai-diagnosis" class="diagnosis"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel center-panel">
+        <div class="panel-title">全局态势一张图</div>
+        <div class="panel-body center-body">
+          <div class="kpi-row" id="kpi-row">
+            <div class="kpi-card">
+              <div class="kpi-label">在线设备数</div>
+              <div class="kpi-value" id="kpi-online-devices">0</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">今日护航里程 (km)</div>
+              <div class="kpi-value" id="kpi-distance">0</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">AI 识别成功率</div>
+              <div class="kpi-value" id="kpi-ai-accuracy">0%</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">社区响应率</div>
+              <div class="kpi-value" id="kpi-community-response">0%</div>
+            </div>
+          </div>
+          <div class="map-and-heat">
+            <div id="map" class="map"></div>
+            <div id="heatmap-chart" class="chart heat-chart"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel right-panel">
+        <div class="panel-title">用户与服务生态</div>
+        <div class="panel-body right-body">
+          <div class="sub-panel">
+            <div class="sub-title">实时服务流水</div>
+            <div id="service-log" class="service-log"></div>
+          </div>
+          <div class="sub-panel">
+            <div class="sub-title">代表性用户轨迹</div>
+            <div id="trajectory-info" class="trajectory-info"></div>
+          </div>
+          <div class="sub-panel gauges">
+            <div class="sub-title">服务质量仪表盘</div>
+            <div class="gauge-row">
+              <div id="gauge-response-time" class="chart gauge"></div>
+              <div id="gauge-satisfaction" class="chart gauge"></div>
+              <div id="gauge-success" class="chart gauge"></div>
+            </div>
+          </div>
+          <div class="sub-panel ecosystem">
+            <div class="sub-title">生态子系统总览</div>
+            <div class="ecosystem-row">
+              <div class="ecosystem-card">
+                <div class="ecosystem-label">社区组件网站</div>
+                <div class="ecosystem-value" id="eco-community-users">--</div>
+                <div class="ecosystem-desc" id="eco-community-posts">--</div>
+              </div>
+              <div class="ecosystem-card">
+                <div class="ecosystem-label">眼镜管理小程序</div>
+                <div class="ecosystem-value" id="eco-glasses-binded">--</div>
+                <div class="ecosystem-desc" id="eco-glasses-updates">--</div>
+              </div>
+              <div class="ecosystem-card">
+                <div class="ecosystem-label">算法与系统</div>
+                <div class="ecosystem-value" id="eco-algo-version">--</div>
+                <div class="ecosystem-desc" id="eco-algo-qps">--</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="ai-console">
+        <div class="console-left">
+          <div class="console-label">AI 智能交互控制台</div>
+          <div class="console-input-row">
+            <input id="ai-question" class="console-input" type="text" placeholder="例如：展示 3 号设备今天下午的告警日志" />
+            <button id="btn-ask" class="console-btn">执行查询</button>
+          </div>
+          <div id="ai-answer" class="console-answer"></div>
+        </div>
+        <div class="console-right">
+          <div class="console-label">预测性指令</div>
+          <div id="predict-card" class="predict-card">
+            <div class="predict-text" id="predict-text"></div>
+            <button id="btn-execute-predict" class="console-btn">一键执行</button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="focus-overlay" class="focus-overlay hidden">
+    <div class="focus-content">
+      <div class="focus-header">
+        <div class="focus-title" id="focus-title"></div>
+        <button id="focus-close" class="focus-close">×</button>
+      </div>
+      <div id="focus-chart" class="chart focus-chart"></div>
+      <div id="focus-log" class="service-log focus-log"></div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
