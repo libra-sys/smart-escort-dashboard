@@ -1,0 +1,90 @@
+# 启动说明
+
+## 项目介绍
+
+这是一个基于Web的智能体系统，包含前端和后端组件。
+
+## 快速启动
+
+### 1. 安装依赖
+
+```bash
+npm install
+```
+
+### 2. 配置环境变量
+
+复制 `.env.example` 文件为 `.env`，并根据实际情况修改环境变量：
+
+```bash
+cp .env.example .env
+```
+
+### 3. 启动服务
+
+使用 PowerShell 脚本启动服务：
+
+```powershell
+./start.ps1
+```
+
+### 4. 访问应用
+
+启动后，应用将在 `http://localhost:3000` 运行。
+
+## 环境配置
+
+所有环境变量已在 `start.ps1` 中配置：
+
+```powershell
+SUPABASE_URL=your_supabase_url_here
+SUPABASE_SERVICE_KEY=your_supabase_service_key_here
+COMMUNITY_API_BASE=your_community_api_base_here
+```
+
+## 常见问题
+
+### 1. 端口占用
+
+如果端口 3000 已被占用，可以修改 `server.js` 文件中的端口配置。
+
+### 2. 环境变量错误
+
+确保 `.env` 文件中的环境变量配置正确，特别是数据库连接信息。
+
+### 3. 依赖安装失败
+
+尝试使用 `npm install --force` 强制安装依赖。
+
+## 项目结构
+
+```
+.
+├── .env.example         # 环境变量示例
+├── .gitignore           # Git 忽略文件
+├── AI智能体配置教程.md   # AI 智能体配置教程
+├── BACKEND.md           # 后端说明
+├── backend.config.js    # 后端配置
+├── index.html           # 前端入口
+├── main.js              # 前端主文件
+├── package-lock.json    # 依赖锁文件
+├── package.json         # 项目配置
+├── server.js            # 后端服务器
+├── start.ps1            # 启动脚本
+├── style.css            # 前端样式
+└── 启动说明.md           # 启动说明
+```
+
+## 技术栈
+
+- **前端**：HTML, CSS, JavaScript
+- **后端**：Node.js, Express
+- **数据库**：Supabase
+
+## 贡献
+
+欢迎贡献代码，提交 Pull Request 或 Issue。
+
+## 许可证
+
+MIT
